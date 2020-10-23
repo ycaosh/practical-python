@@ -58,4 +58,5 @@ name, shares, price, change = headers
 print(f'{name:>10s} {shares:>10s} {price:>10s} {change:>10s}')
 print(('-' * 10 + ' ') * len(headers))
 for name, shares, price, change in report:
-    print(f'{name:>10s} {shares:>10d} {price:>10.2f} {change:>10.2f}')
+    print(f'{name:>10s} {shares:>10d}',
+          f'${price:>.2f}'.rjust(10), f'{change:>10.2f}')
