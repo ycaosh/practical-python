@@ -45,7 +45,7 @@ def can_i_retire(portfolio_file, price_file):
 def make_report(portfolio, prices):
     report = []
     for r in portfolio:
-        report.append((r['name'], r['shares'], r['price'],
+        report.append((r['name'], r['shares'], prices[r['name']],
                        prices[r['name']]-r['price']))
     return report
 
