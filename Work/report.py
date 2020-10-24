@@ -6,16 +6,17 @@ import csv
 
 def read_portfolio(filename):
     portfolio = []
-
     with open(filename, 'rt') as f:
         rows = csv.reader(f)
-        next(rows)
-        for row in rows:
-            holding = {}
-            holding['name'] = row[0]
-            holding['shares'] = int(row[1])
-            holding['price'] = float(row[2])
-            portfolio.append(holding)
+        headers = next(rows)
+        for rowno, row in enumerate(rows):
+            record = dict(zip(headers, row))
+            try:
+                record['shares'] = int(record['shares'])
+                record['price'] = float(record['price'])
+                portfolio.append(record)
+            except ValueError:
+                print(f'Row {rowno}: Bad row: {row}')
     return portfolio
 
 
