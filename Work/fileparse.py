@@ -4,11 +4,13 @@
 import csv
 
 
-def parse_csv(filename, select=None, types=None, has_header=True, delimiter=','):
+def parse_csv(filename, select=None, types=None, has_headers=True, delimiter=','):
     with open(filename) as f:
         rows = csv.reader(f, delimiter=delimiter)
-        headers = next(rows) if has_header else []
+        headers = next(rows) if has_headers else []
         records = []
+        if bool(select) ^ bool(headers):
+            raise RuntimeError("select argument requires column headers")
         for row in rows:
             if not row:
                 continue
