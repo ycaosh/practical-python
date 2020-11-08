@@ -4,7 +4,7 @@
 import csv
 
 
-def parse_csv(filename, select=None, types=None, has_headers=True, delimiter=','):
+def parse_csv(filename, select=None, types=None, has_headers=True, delimiter=',', silence_errors=False):
     with open(filename) as f:
         rows = csv.reader(f, delimiter=delimiter)
         headers = next(rows) if has_headers else []
@@ -23,6 +23,8 @@ def parse_csv(filename, select=None, types=None, has_headers=True, delimiter=','
                         headers, row, types)}
                 records.append(record)
             except ValueError as e:
-                print(f"Row {index}: Could't convert {row}")
-                print(f"Row {index}: Reason {e}")
+                if not silence_errors:
+                    print(f"Row {index}: Could't convert {row}")
+                    print(f"Row {index}: Reason {e}")
+                continue
     return records
