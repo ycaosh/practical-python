@@ -19,8 +19,12 @@ def parse_csv(filename, select=None, types=None, has_headers=True, delimiter=','
                     record = {header: func(data) for header, data, func in zip(
                         headers, row, types) if header in select}
                 else:
-                    record = {header: func(data) for header, data, func in zip(
-                        headers, row, types)}
+                    if has_headers:
+                        record = {header: func(data) for header, data, func in zip(
+                            headers, row, types)}
+                    else:
+                        record = tuple([func(data)
+                                        for data, func in zip(row, types)])
                 records.append(record)
             except ValueError as e:
                 if not silence_errors:
