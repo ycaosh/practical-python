@@ -2,32 +2,19 @@
 #
 # Exercise 2.4
 import csv
+import fileparse
 
 
 def read_portfolio(filename):
-    portfolio = []
-    with open(filename, 'rt') as f:
-        rows = csv.reader(f)
-        headers = next(rows)
-        for rowno, row in enumerate(rows):
-            record = dict(zip(headers, row))
-            try:
-                record['shares'] = int(record['shares'])
-                record['price'] = float(record['price'])
-                portfolio.append(record)
-            except ValueError:
-                print(f'Row {rowno}: Bad row: {row}')
+    portfolio = fileparse.parse_csv(
+        filename, select=['name', 'shares', 'price'], types=[str, int, float])
     return portfolio
 
 
 def read_prices(filename):
-    prices = {}
-    with open(filename, 'rt') as f:
-        rows = csv.reader(f)
-        for row in rows:
-            if len(row) != 0:
-                prices[row[0]] = float(row[1])
-    return prices
+    prices = fileparse.parse_csv(
+        filename, types=[str, float], has_headers=False)
+    return dict(prices)
 
 
 def can_i_retire(portfolio_file, price_file):
