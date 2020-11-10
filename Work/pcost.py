@@ -13,5 +13,11 @@ def portfolio_cost(filename):
     return cost
 
 
-cost = portfolio_cost('data/portfolio.csv')
-print(f'Total cost {cost:.2f}')
+def main(argv):
+    cost = portfolio_cost(argv[1])
+    print(f'Total cost {cost:.2f}')
+
+
+if __name__ == '__main__':
+    import sys
+    main(sys.argv)
