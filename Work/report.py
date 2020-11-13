@@ -50,27 +50,18 @@ def print_report(reportdata, formatter):
     for name, shares, price, change in reportdata:
         rowdata = [name, str(shares), f'{price:0.2f}', f'{change:0.2f}']
         formatter.row(rowdata)
-    # headers = ('Name', 'Shares', 'Price', 'Change')
-    # name, shares, price, change = headers
-    # print(f'{name:>10s} {shares:>10s} {price:>10s} {change:>10s}')
-    # print(('-' * 10 + ' ') * len(headers))
-    # for name, shares, price, change in report:
-    #     print(f'{name:>10s} {shares:>10d}',
-    #           f'${price:>.2f}'.rjust(10), f'{change:>10.2f}')
 
 
-def portfolio_report(portfoliofile, pricefile):
+def portfolio_report(portfoliofile, pricefile, fmt='txt'):
     portfolio = read_portfolio(portfoliofile)
     prices = read_prices(pricefile)
     report = make_report(portfolio, prices)
-    # print_report(report)
-    # Print it out
-    formatter = tableformat.TableFormatter()
+    formatter = tableformat.create_formatter(fmt)
     print_report(report, formatter)
 
 
 def main(argv):
-    portfolio_report(argv[1], argv[2])
+    portfolio_report(argv[1], argv[2], argv[3])
 
 
 if __name__ == '__main__':
