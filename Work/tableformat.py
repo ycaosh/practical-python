@@ -65,3 +65,10 @@ def create_formatter(fmt):
     else:
         raise RuntimeError(f'Unknown format {fmt}')
     return formatter
+
+
+def print_table(portfolio, headers, formatter):
+    formatter.headings(headers)
+    for s in portfolio:
+        rowdata = [str(getattr(s, header)) for header in headers]
+        formatter.row(rowdata)

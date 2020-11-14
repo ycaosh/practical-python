@@ -11,3 +11,6 @@ class Stock:
         if self.shares - n >= 0:
             self.shares -= n
         return self.shares
+
+    def __repr__(self):
+        return f'Stock(\'{self.name}\', {self.shares}, {self.price})'
