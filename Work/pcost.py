@@ -6,11 +6,8 @@ import report
 
 
 def portfolio_cost(filename):
-    cost = 0
     portfolio = report.read_portfolio(filename)
-    for d in portfolio:
-        cost += d.cost()
-    return cost
+    return portfolio.total_cost
 
 
 def main(argv):
