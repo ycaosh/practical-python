@@ -8,11 +8,11 @@ import tableformat
 from portfolio import Portfolio
 
 
-def read_portfolio(filename):
+def read_portfolio(filename, **opts):
     with open(filename) as f:
         portdicts = fileparse.parse_csv(
-            f, select=['name', 'shares', 'price'], types=[str, int, float])
-    portfolio = [Stock(d['name'], d['shares'], d['price']) for d in portdicts]
+            f, select=['name', 'shares', 'price'], types=[str, int, float], **opts)
+    portfolio = [Stock(**d) for d in portdicts]
     return Portfolio(portfolio)
 
 
