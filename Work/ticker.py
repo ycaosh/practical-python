@@ -1,21 +1,12 @@
 from follow import follow
 import csv
-
-
-# def parse_stock_data(lines):
-#     rows = csv.reader(lines)
-#     return rows
+import tableformat
+import report
 
 
 def select_columns(rows, indices):
     for row in rows:
         yield [row[index] for index in indices]
-
-
-# def parse_stock_data(lines):
-#     rows = csv.reader(lines)
-#     rows = select_columns(rows, [0, 1, 4])
-#     return rows
 
 
 def convert_types(rows, types):
@@ -42,8 +33,24 @@ def filter_symbols(rows, names):
             yield row
 
 
-if __name__ == '__main__':
-    lines = follow('Data/stocklog.csv')
+def ticker(portfile, logfile, fmt):
+    portfolio = report.read_portfolio(portfile)
+    lines = follow(logfile)
     rows = parse_stock_data(lines)
+    rows = filter_symbols(rows, portfolio)
+    formatter = tableformat.create_formatter(fmt)
+    formatter.headings(['Name', 'Price', 'Change'])
     for row in rows:
-        print(row)
+        formatter.row(
+            [row['name'], f"{row['price']:0.2f}", f"{row['change']:0.2f}"])
+
+
+def main(args):
+    if len(args) != 4:
+        raise SystemExit('Usage: %s portfoliofile logfile fmt' % args[0])
+    ticker(args[1], args[2], args[3])
+
+
+if __name__ == '__main__':
+    import sys
+    main(sys.argv)
