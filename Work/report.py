@@ -10,10 +10,8 @@ from portfolio import Portfolio
 
 def read_portfolio(filename, **opts):
     with open(filename) as f:
-        portdicts = fileparse.parse_csv(
-            f, select=['name', 'shares', 'price'], types=[str, int, float], **opts)
-    portfolio = [Stock(**d) for d in portdicts]
-    return Portfolio(portfolio)
+        port = Portfolio.from_csv(f, **opts)
+    return port
 
 
 def read_prices(filename):
